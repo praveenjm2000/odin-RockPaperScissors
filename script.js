@@ -17,31 +17,40 @@ function game(playerSelection) {
     if (playerSelection.toLowerCase()===computerSelection){
         return("Its a tie");
     }
-    else if(playerSelection.toLowerCase()!="scissors"&&playerSelection.toLowerCase()!="rock"&&playerSelection.toLowerCase()!="paper"){
+    else if(playerSelection.toLowerCase()!="scissor"&&playerSelection.toLowerCase()!="rock"&&playerSelection.toLowerCase()!="paper"){
         return("Enter appropriate value!!!");
     }
-    else if ((playerSelection.toLowerCase()==="scissors" && computerSelection==="rock") || (playerSelection.toLowerCase()==="rock" && computerSelection==="paper") || (playerSelection.toLowerCase()==="paper"&&computerSelection==="scissors")) {
-        point-=1;
+    else if ((playerSelection.toLowerCase()==="scissor" && computerSelection==="rock") || (playerSelection.toLowerCase()==="rock" && computerSelection==="paper") || (playerSelection.toLowerCase()==="paper"&&computerSelection==="scissor")) {
+        cPoint+=1;
         return("You lose! "+computerSelection+" beats "+playerSelection);
     }
     else{
-        point+=1;
+        pPoint+=1;
         return("You won! "+playerSelection+" beats "+computerSelection);
     }
 }
-
+/*
 function gameCall() {
     while(count){
-        console.log(6-count);
-        console.log(game(prompt("RockPaperScissors?", 'Rock')));
-        count=count-1;
+        console.log(count);
+        gamelisten();
     }
-}
+}*/
 
 let count=5;
-let point=0;
-console.log("New game!!");
-gameCall();
+let cPoint;
+let pPoint;
+
+const startBtn = document.querySelector('.btn');
+startBtn.addEventListener('click',() => {
+    cPoint=0;
+    pPoint=0;
+    startBtn.textContent = "Start Over";
+    updateScore();
+    gamelisten();
+});
+
+/*
 if(point>0){
     alert("You won!!!");
 }
@@ -49,19 +58,29 @@ else if(point<0){
     alert("You lose :(")
 }
 else{
-    alert("Game tied.")
+   alert("Game tied.")
 }
-/*
-while(1){
-    let input = prompt("Enter selection:",'Rock').toLowerCase();
-    game(input,computerPlay());
-    
-    if(output===0){
-        console.log("Game lost");
+*/
+
+function gamelisten(){
+    if(pPoint>=5||cPoint>=5){
+        return;
     }
-    else if(output===1){
-        console.log("Game won");
-    }
-    else{
-        console.log("Game tie!");
-    }*/
+    console.log('start');
+    const ops = document.querySelectorAll('.option');
+    ops.forEach(opr => opr.addEventListener('click', test));
+}
+function test(e){
+    const name = e.target.className;
+    console.log(name);
+    alert(game(name));
+    console.log(pPoint, cPoint);
+    updateScore();
+}
+
+function updateScore() {
+    const pS = document.querySelector('.pscore');
+    const cS = document.querySelector('.cscore');
+    pS.textContent = pPoint;
+    cS.textContent = cPoint;
+}
