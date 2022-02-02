@@ -38,8 +38,12 @@ function game(playerSelection) {
         textResult.textContent="You won!";
     }
     if(cPoint===5 || pPoint===5){
-        if(cPoint===5) overlay(0);
-        else overlay(1);
+        if(cPoint===5){
+            overlay(0);
+        }
+        else{
+            overlay(1);
+        }
     }
 }
 
@@ -58,7 +62,7 @@ imgResult.setAttribute('style','height:120px; width:120px;')
 const block = document.querySelector('.cbox');
 
 const startBtn = document.querySelector('.btn');
-startBtn.addEventListener('click',restart())
+startBtn.addEventListener('click',restart)
 
 function restart(){
     cPoint=0;
@@ -156,12 +160,13 @@ function overlay(t){
     popup.classList.add('overlayAct');
     const poptext = document.querySelector('.poptext');
     if(t) poptext.textContent="Congrats!   You won the game!";
-    else poptext.textContent=`You lost:( Try again!`;
-    const popbtn = document.querySelectorAll('.popbtn')
-    popbtn.forEach(pop => pop.addEventListener('click',resetAll));
+    else poptext.textContent="You lost:( Try again!";
+    const popbtn = document.querySelector('.popbtn')
+    popbtn.addEventListener('click',resetAll);
 }
 
-function resetAll(e){
+function resetAll(){
+    //console.log("reset all");
     popup.classList.remove('overlayAct');
     restart();
 }
