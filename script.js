@@ -19,10 +19,10 @@ function computerPlay() {
 }
 function game(playerSelection) {
     computerSelection=computerPlay();
-    console.log(computerSelection);
+    //console.log(computerSelection);
     if (playerSelection.toLowerCase()===computerSelection){
         removeTransition();
-        return("Its a tie");
+        textResult.textContent="Its a tie";
     }
     else if(playerSelection.toLowerCase()!="scissor"&&playerSelection.toLowerCase()!="rock"&&playerSelection.toLowerCase()!="paper"){
         return("Enter appropriate value!!!");
@@ -30,12 +30,16 @@ function game(playerSelection) {
     else if ((playerSelection.toLowerCase()==="scissor" && computerSelection==="rock") || (playerSelection.toLowerCase()==="rock" && computerSelection==="paper") || (playerSelection.toLowerCase()==="paper"&&computerSelection==="scissor")) {
         cPoint+=1;
         lostTransition();
-        return("You lose! "+computerSelection+" beats "+playerSelection);
+        textResult.textContent="You lose!";
     }
     else{
         pPoint+=1;
         wonTransition();
-        return("You won! "+playerSelection+" beats "+computerSelection);
+        textResult.textContent="You won!";
+    }
+    if(cPoint===5 || pPoint===5){
+        if(cPoint===5) overlay(0);
+        else overlay(1);
     }
 }
 
@@ -43,39 +47,50 @@ let count=5;
 let cPoint;
 let pPoint;
 
+const textResult = document.querySelector('.textRes');
+
+let imgSelect = document.createElement("img");
+imgSelect.setAttribute('style','height:120px; width:120px;')
+const pblock = document.querySelector('.pbox');
+
 let imgResult = document.createElement("img");
 imgResult.setAttribute('style','height:120px; width:120px;')
 const block = document.querySelector('.cbox');
 
 const startBtn = document.querySelector('.btn');
-startBtn.addEventListener('click',() => {
+startBtn.addEventListener('click',restart())
+
+function restart(){
     cPoint=0;
     pPoint=0;
     startBtn.textContent = "Restart";
     updateScore();
     removeTransition();
     resetImg();
+    resetSelect();
     gamelisten();
-});
+};
+
+const popup = document.querySelector('.overlay');
+
 
 
 function gamelisten(){
-    console.log('start');
-
+    //console.log('start');
     const ops = document.querySelectorAll('.option')
     ops.forEach(opt => opt.addEventListener('click',test));
-
-    console.log("stopp");
 }
 
 function test(e){
-    if(cPoint>=5 || pPoint>=5){
+    if(cPoint===5 || pPoint===5){
         return;
     }
     const name = e.target.classList[0];
-    console.log(name);
-    console.log(game(name));
-    console.log(pPoint, cPoint);
+    updateSelect(name);
+    //console.log(name);
+    //console.log(game(name));
+    //console.log(pPoint, cPoint);
+    game(name);
     updateScore();
 }
 
@@ -110,11 +125,43 @@ function resetImg(){
     block.removeChild(block.firstElementChild);
     imgResult.src="./images/question-mark-draw.png";
     block.appendChild(imgResult);
+    textResult.textContent='Make a move!';
 }
 
+function updateSelect(name){
+    if(name==="rock"){
+        imgSelect.src="https://img.icons8.com/emoji/96/000000/rock-emoji.png";
+    }
+    else if(name==="paper"){
+        imgSelect.src="https://img.icons8.com/ios/100/000000/matt-paper.png";
+    }
+    else if(name==="scissor"){
+        imgSelect.src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/96/000000/external-cut-command-in-shape-of-scissor-for-computing-text-bold-tal-revivo.png";
+    }
+    pblock.removeChild(pblock.childNodes[0]);
+    pblock.appendChild(imgSelect);
+}
+function resetSelect(){
+    pblock.removeChild(pblock.firstElementChild);
+    imgSelect.src="./images/question-mark-draw.png";
+    pblock.appendChild(imgSelect);
+}
 /*
 function imgScale(name){
     let scaleimg=document.querySelector(`.${name}`);
     scaleimg.classList.add('imgScale');
 }
 */
+function overlay(t){
+    popup.classList.add('overlayAct');
+    const poptext = document.querySelector('.poptext');
+    if(t) poptext.textContent="Congrats!   You won the game!";
+    else poptext.textContent=`You lost:( Try again!`;
+    const popbtn = document.querySelectorAll('.popbtn')
+    popbtn.forEach(pop => pop.addEventListener('click',resetAll));
+}
+
+function resetAll(e){
+    popup.classList.remove('overlayAct');
+    restart();
+}
