@@ -141,7 +141,7 @@ body{
     border-color: rgb(37,37,37);
     border-width: 2px;*/
     border-radius: 5px;
-    box-shadow: 0px 3px 20px  #4b4b4b73;
+    box-shadow: 0px 3px 20px  #4b4b4b57;
     background-color: rgb(231, 175, 34);
 }
 .spaceFill{
@@ -175,11 +175,11 @@ body{
     border-style: none;
     border-radius: 5%;
     transition: all .07s ease;
-    box-shadow: 0px 3px 20px  #4b4b4b5b;
 }
 
 .btn:hover{
     transform: scale(1.1);
+    box-shadow: 0px 3px 20px  #4b4b4b5b;
 }
 
 .container{
@@ -200,7 +200,7 @@ body{
     left: 0;
     right: 0;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.192);
+    background: rgba(0, 0, 0, 0.281);
     display: none;
     justify-content: center;
     align-items: center;
